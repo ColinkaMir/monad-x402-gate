@@ -17,6 +17,7 @@ PRICE_WEI = int(os.getenv("X402_PRICE_WEI", str(10**16)))  # default 0.01 MON
 FRESH_SECONDS = 900
 RPC = os.getenv("X402_RPC", "https://testnet-rpc.monad.xyz")
 CHAIN_ID = int(os.getenv("X402_CHAIN_ID", "10143"))
+NETWORK = os.getenv("X402_NETWORK", "monad-testnet")
 DB = os.getenv("X402_DB", "./replay.db")
 GEO_DIR = os.getenv("X402_DATA_DIR", "./data")
 RESOURCE = "network-concentration-report"
@@ -37,7 +38,7 @@ def payment_requirements():
         "error": "payment required",
         "accepts": [{
             "scheme": "monad-native-exact",
-            "network": "monad-testnet",
+            "network": NETWORK,
             "chainId": CHAIN_ID,
             "payTo": PAY_TO,
             "maxAmountRequired": str(PRICE_WEI),
@@ -45,7 +46,7 @@ def payment_requirements():
             "resource": f"/monad/x402/{RESOURCE}",
             "description": "Prooflines network concentration report (mainnet+testnet, "
                            "HHI by ASN/country/continent, BFT threshold distances, epoch deltas). "
-                           "Pay the exact amount in native MON on Monad testnet, then retry with "
+                           f"Pay the exact amount in native MON on {NETWORK}, then retry with "
                            "header X-PAYMENT: base64({\"txHash\": \"0x..\"}).",
             "validityWindowSeconds": FRESH_SECONDS,
         }],
