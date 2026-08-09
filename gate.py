@@ -18,6 +18,12 @@ FRESH_SECONDS = 900
 RPC = os.getenv("X402_RPC", "https://testnet-rpc.monad.xyz")
 CHAIN_ID = int(os.getenv("X402_CHAIN_ID", "10143"))
 NETWORK = os.getenv("X402_NETWORK", "monad-testnet")
+CAIP2 = f"eip155:{CHAIN_ID}"
+# Optional second rail: official x402 v2 `exact` scheme (USDC via a facilitator).
+# Enabled when X402_USDC_ASSET is set; the facilitator verifies and settles.
+USDC_ASSET = os.getenv("X402_USDC_ASSET", "")
+USDC_AMOUNT = os.getenv("X402_USDC_AMOUNT", "10000")  # atomic units (6 decimals): 0.01 USDC
+FACILITATOR = os.getenv("X402_FACILITATOR", "https://x402-facilitator.molandak.org")
 DB = os.getenv("X402_DB", "./replay.db")
 GEO_DIR = os.getenv("X402_DATA_DIR", "./data")
 RESOURCE = "network-concentration-report"
@@ -30,6 +36,15 @@ def rpc(method, params):
         headers={"Content-Type": "application/json", "User-Agent": "prooflines-x402"})
     with urllib.request.urlopen(req, timeout=15) as r:
         return json.load(r).get("result")
+
+
+def facilitator(path, payment_payload, requirements):
+    body = json.dumps({"x402Version": 2, "paymentPayload": payment_payload,
+                       "paymentRequirements": requirements}).encode()
+    req = urllib.request.Request(FACILITATOR + path, body,
+        headers={"Content-Type": "application/json", "User-Agent": "prooflines-x402"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return json.load(r)
 
 
 def payment_requirements():
@@ -49,7 +64,15 @@ def payment_requirements():
                            f"Pay the exact amount in native MON on {NETWORK}, then retry with "
                            "header X-PAYMENT: base64({\"txHash\": \"0x..\"}).",
             "validityWindowSeconds": FRESH_SECONDS,
-        }],
+        }] + ([{
+            "scheme": "exact",
+            "network": CAIP2,
+            "amount": USDC_AMOUNT,
+            "asset": USDC_ASSET,
+            "payTo": PAY_TO,
+            "maxTimeoutSeconds": 300,
+            "extra": {"name": "USDC", "version": "2"},
+        }] if USDC_ASSET else []),
     }
 
 
@@ -148,11 +171,58 @@ class Handler(BaseHTTPRequestHandler):
             self._json(404, {"error": "unknown resource",
                              "available": [f"/monad/x402/{RESOURCE}"]})
             return
+        sig_hdr = self.headers.get("PAYMENT-SIGNATURE")
+        if sig_hdr and USDC_ASSET:
+            try:
+                envelope = json.loads(base64.b64decode(sig_hdr))
+                accepted = envelope.get("accepted") or {}
+                if accepted.get("scheme") != "exact":
+                    raise ValueError("only the exact scheme is facilitated here")
+            except Exception as e:
+                self._json(400, {"error": f"malformed PAYMENT-SIGNATURE: {e}"})
+                return
+            reqs_entry = payment_requirements()["accepts"][1]
+            try:
+                v = facilitator("/verify", envelope, reqs_entry)
+            except Exception as e:
+                self._json(502, {"error": f"facilitator verify error: {e}"})
+                return
+            if not v.get("isValid"):
+                out = payment_requirements()
+                out["error"] = f"payment rejected: {v.get('invalidReason')}"
+                self._json(402, out)
+                return
+            try:
+                st = facilitator("/settle", envelope, reqs_entry)
+            except Exception as e:
+                self._json(502, {"error": f"facilitator settle error: {e}"})
+                return
+            if not st.get("success"):
+                out = payment_requirements()
+                out["error"] = f"settlement failed: {st.get('errorReason')}"
+                self._json(402, out)
+                return
+            c = db()
+            c.execute("INSERT OR IGNORE INTO used VALUES (?,?,?)",
+                      ((st.get("transaction") or "").lower(), int(time.time()), RESOURCE))
+            c.commit()
+            self._json(200, build_report(), {"PAYMENT-RESPONSE":
+                       base64.b64encode(json.dumps(st).encode()).decode()})
+            return
+
         hdr = self.headers.get("X-PAYMENT")
         if not hdr:
             reqs = payment_requirements()
-            self._json(402, reqs, {"X-PAYMENT-REQUIRED":
-                       base64.b64encode(json.dumps(reqs).encode()).decode()})
+            extra = {"X-PAYMENT-REQUIRED":
+                     base64.b64encode(json.dumps(reqs).encode()).decode()}
+            if USDC_ASSET:
+                v2 = {"x402Version": 2,
+                      "resource": {"url": f"https://prooflines.org{self.path.split('?')[0]}",
+                                   "description": reqs["accepts"][0]["description"],
+                                   "mimeType": "application/json"},
+                      "accepts": [a for a in reqs["accepts"] if a.get("scheme") == "exact"]}
+                extra["PAYMENT-REQUIRED"] = base64.b64encode(json.dumps(v2).encode()).decode()
+            self._json(402, reqs, extra)
             return
         try:
             payload = json.loads(base64.b64decode(hdr))
