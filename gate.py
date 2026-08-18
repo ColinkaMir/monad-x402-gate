@@ -153,6 +153,7 @@ def build_report():
 
 class Handler(BaseHTTPRequestHandler):
     server_version = "prooflines-x402/1.0"
+    head_only = False
 
     def _json(self, code, obj, extra=None):
         body = json.dumps(obj, ensure_ascii=False).encode()
@@ -163,7 +164,20 @@ class Handler(BaseHTTPRequestHandler):
         for k, v in (extra or {}).items():
             self.send_header(k, v)
         self.end_headers()
-        self.wfile.write(body)
+        if not self.head_only:
+            self.wfile.write(body)
+
+    def do_HEAD(self):
+        # RFC 9110 6.4.2: HEAD must answer with the status and headers GET would
+        # send, minus the body. Without this, BaseHTTPRequestHandler answers 501,
+        # so a link checker probing with HEAD sees a broken endpoint instead of
+        # the 402 payment offer, and the X-PAYMENT-REQUIRED header never reaches
+        # an agent that only wants to learn the price before committing to a GET.
+        self.head_only = True
+        try:
+            self.do_GET()
+        finally:
+            self.head_only = False
 
     def do_GET(self):
         path = self.path.split("?")[0].rstrip("/")
