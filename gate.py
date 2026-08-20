@@ -27,7 +27,17 @@ FACILITATOR = os.getenv("X402_FACILITATOR", "https://x402-facilitator.molandak.o
 DB = os.getenv("X402_DB", "./replay.db")
 GEO_DIR = os.getenv("X402_DATA_DIR", "./data")
 RESOURCE = "network-concentration-report"
-X402_VERSION = 1
+# x402 v2. Bumped from 1 on 2026-08-20: the CDP bazaar validator rejects v1 outright
+# ("upgrade to x402 v2 to be discoverable"), and every discovery index speaks v2.
+X402_VERSION = 2
+# Absolute URL of this resource, as an index must advertise it. The testnet and
+# mainnet instances sit behind different nginx prefixes, so it is configurable.
+PUBLIC_URL = os.getenv("X402_PUBLIC_URL", f"https://prooflines.org/monad/x402/{RESOURCE}")
+DESCRIPTION = ("Monad network concentration report, mainnet and testnet in one call: stake HHI by "
+               "provider ASN, country and continent; top-1/2/4 provider shares; distance to the 33% "
+               "BFT liveness threshold and the minimum number of providers needed to reach 33% and "
+               "50%; per-provider stake with measured RTT; epoch-over-epoch deltas. Computed from "
+               "ProofLines' own off-node measurements, not resold from an explorer.")
 
 
 def rpc(method, params):
@@ -47,16 +57,117 @@ def facilitator(path, payment_payload, requirements):
         return json.load(r)
 
 
+def bazaar_extension():
+    """The `extensions.bazaar` object a discovery index needs to catalogue this endpoint.
+
+    Required by the CDP validator: info.input.type, info.input.method and a JSON Schema.
+    info.output.example is advisory but it is what lets an agent decide whether the
+    response is worth paying for before it spends anything, so it is filled in properly.
+    """
+    return {"bazaar": {
+        "info": {
+            "input": {"type": "http", "method": "GET"},
+            "output": {"type": "json", "example": {
+                "generated_at_utc": "2026-08-20 10:00 UTC",
+                "source": "prooflines geo-latency pipeline",
+                "networks": {"mainnet": {
+                    "epoch": 812,
+                    "as_of": "2026-08-20",
+                    "hhi": {"provider_asn": 812.4, "country": 1740.9, "continent": 4133.1},
+                    "top_provider_share_pct": {"top1": 19.89, "top2": 34.65, "top4": 52.07},
+                    "bft_thresholds": {"liveness_33_distance_pct": 1.65,
+                                       "min_providers_to_33_pct": 2,
+                                       "min_providers_to_50_pct": 4},
+                    "providers_full": [{"name": "Hetzner", "asn": "AS24940",
+                                        "stake_pct": 19.89, "cum_pct": 19.89,
+                                        "count": 41, "rtt_ms": 27}],
+                }},
+            }},
+        },
+        # `schema` is validated against the `info` object above, not against the request
+        # and response payloads: the CDP validator rejected a payload-shaped schema with
+        # "(root).input: Additional property type is not allowed" and "(root).output:
+        # generated_at_utc is required", i.e. it fed info.input/info.output through it.
+        # So this describes info; the data shape is carried by info.output.example.
+        "schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+                "input": {
+                    "type": "object",
+                    "description": "No parameters. A GET returns both networks in one response.",
+                    "required": ["type", "method"],
+                    "properties": {"type": {"const": "http"}, "method": {"const": "GET"}},
+                },
+                "output": {
+                    "type": "object",
+                    "required": ["type", "example"],
+                    "properties": {"type": {"const": "json"},
+                                   "example": {"type": "object"}},
+                },
+            },
+        },
+        "_payloadSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "description": "Shape of the paid response body itself, kept beside the "
+                           "index-facing schema so the detail is not lost.",
+            "properties": {
+                "output": {
+                    "type": "object",
+                    "required": ["generated_at_utc", "networks"],
+                    "properties": {
+                        "generated_at_utc": {"type": "string",
+                                             "description": "Generation time, 'YYYY-MM-DD HH:MM UTC'."},
+                        "source": {"type": "string"},
+                        "networks": {
+                            "type": "object",
+                            "description": "Keyed by network name: 'mainnet' and 'testnet'.",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "epoch": {"type": "integer"},
+                                    "as_of": {"type": "string"},
+                                    "hhi": {"type": "object",
+                                            "description": "Herfindahl-Hirschman index 0..10000 by dimension.",
+                                            "properties": {"provider_asn": {"type": "number"},
+                                                           "country": {"type": "number"},
+                                                           "continent": {"type": "number"}}},
+                                    "top_provider_share_pct": {"type": "object",
+                                                               "properties": {"top1": {"type": "number"},
+                                                                              "top2": {"type": "number"},
+                                                                              "top4": {"type": "number"}}},
+                                    "bft_thresholds": {"type": "object",
+                                                       "properties": {"liveness_33_distance_pct": {"type": "number"},
+                                                                      "min_providers_to_33_pct": {"type": "integer"},
+                                                                      "min_providers_to_50_pct": {"type": "integer"}}},
+                                    "providers_full": {"type": "array", "items": {"type": "object"}},
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    }}
+
+
 def payment_requirements():
     return {
         "x402Version": X402_VERSION,
         "error": "payment required",
+        "resource": {"url": PUBLIC_URL, "description": DESCRIPTION,
+                     "mimeType": "application/json"},
+        "extensions": bazaar_extension(),
         "accepts": [{
             "scheme": "monad-native-exact",
             "network": NETWORK,
             "chainId": CHAIN_ID,
             "payTo": PAY_TO,
+            # v2 renamed this field to `amount`; `maxAmountRequired` stays for the
+            # published demo client and anyone who integrated against v1.
+            "amount": str(PRICE_WEI),
             "maxAmountRequired": str(PRICE_WEI),
+            "maxTimeoutSeconds": FRESH_SECONDS,
             "asset": "native",
             "resource": f"/monad/x402/{RESOURCE}",
             "description": "Prooflines network concentration report (mainnet+testnet, "
@@ -195,7 +306,10 @@ class Handler(BaseHTTPRequestHandler):
             except Exception as e:
                 self._json(400, {"error": f"malformed PAYMENT-SIGNATURE: {e}"})
                 return
-            reqs_entry = payment_requirements()["accepts"][1]
+            # Select the facilitated rail by scheme, never by position: the order of
+            # `accepts` is presentation, and an index or a future rail may reorder it.
+            reqs_entry = next(a for a in payment_requirements()["accepts"]
+                              if a.get("scheme") == "exact")
             try:
                 v = facilitator("/verify", envelope, reqs_entry)
             except Exception as e:
@@ -227,16 +341,22 @@ class Handler(BaseHTTPRequestHandler):
         hdr = self.headers.get("X-PAYMENT")
         if not hdr:
             reqs = payment_requirements()
-            extra = {"X-PAYMENT-REQUIRED":
-                     base64.b64encode(json.dumps(reqs).encode()).decode()}
-            if USDC_ASSET:
-                v2 = {"x402Version": 2,
-                      "resource": {"url": f"https://prooflines.org{self.path.split('?')[0]}",
-                                   "description": reqs["accepts"][0]["description"],
-                                   "mimeType": "application/json"},
-                      "accepts": [a for a in reqs["accepts"] if a.get("scheme") == "exact"]}
-                extra["PAYMENT-REQUIRED"] = base64.b64encode(json.dumps(v2).encode()).decode()
-            self._json(402, reqs, extra)
+            # x402 v2 requires the FULL PaymentRequired object, `extensions.bazaar`
+            # included, in the `PAYMENT-REQUIRED` header: the CDP validator says
+            # outright that "the indexer reads only the header for v2". That payload
+            # runs past nginx's default 4k header buffer, so the proxy needs
+            # proxy_buffer_size raised (done 2026-08-20) or it answers 502 while the
+            # gate itself is serving a perfectly valid 402.
+            # `X-PAYMENT-REQUIRED` stays as the v1 name our published demo client reads.
+            encoded = base64.b64encode(json.dumps(reqs).encode()).decode()
+            # NOTE: an earlier version rebuilt a reduced v2 object here whenever a
+            # facilitated rail was configured, and overwrote the header with it. That
+            # dropped `extensions` on exactly the instance that has real money on it:
+            # the mainnet endpoint validated as "no bazaar discovery extension found"
+            # while testnet passed, because testnet has no USDC rail to trigger it.
+            # The full object now goes out on both, unconditionally.
+            self._json(402, reqs, {"PAYMENT-REQUIRED": encoded,
+                                   "X-PAYMENT-REQUIRED": encoded})
             return
         try:
             payload = json.loads(base64.b64decode(hdr))
