@@ -1,0 +1,1362 @@
+[
+ {
+  "date": "2026-08-15",
+  "ts": 1786836659,
+  "epoch": 1082,
+  "total_validators": 183,
+  "continents": [
+   {
+    "name": "EU",
+    "count": 112,
+    "count_pct": 61.2,
+    "stake_pct": 59.3
+   },
+   {
+    "name": "NA",
+    "count": 42,
+    "count_pct": 23.0,
+    "stake_pct": 23.95
+   },
+   {
+    "name": "APAC",
+    "count": 25,
+    "count_pct": 13.7,
+    "stake_pct": 14.74
+   },
+   {
+    "name": "Other",
+    "count": 4,
+    "count_pct": 2.2,
+    "stake_pct": 2.02
+   }
+  ],
+  "countries": [
+   {
+    "cc": "US",
+    "name": "United States",
+    "count": 36,
+    "stake_pct": 20.92
+   },
+   {
+    "cc": "DE",
+    "name": "Germany",
+    "count": 30,
+    "stake_pct": 15.83
+   },
+   {
+    "cc": "FI",
+    "name": "Finland",
+    "count": 24,
+    "stake_pct": 12.1
+   },
+   {
+    "cc": "PL",
+    "name": "Poland",
+    "count": 16,
+    "stake_pct": 8.07
+   },
+   {
+    "cc": "SG",
+    "name": "Singapore",
+    "count": 10,
+    "stake_pct": 6.46
+   },
+   {
+    "cc": "SE",
+    "name": "Sweden",
+    "count": 8,
+    "stake_pct": 4.74
+   },
+   {
+    "cc": "NL",
+    "name": "The Netherlands",
+    "count": 9,
+    "stake_pct": 4.54
+   },
+   {
+    "cc": "AT",
+    "name": "Austria",
+    "count": 8,
+    "stake_pct": 4.03
+   },
+   {
+    "cc": "FR",
+    "name": "France",
+    "count": 6,
+    "stake_pct": 3.74
+   },
+   {
+    "cc": "JP",
+    "name": "Japan",
+    "count": 5,
+    "stake_pct": 3.23
+   }
+  ],
+  "providers": [
+   {
+    "name": "Hetzner Online GmbH",
+    "count": 38,
+    "stake_pct": 19.15
+   },
+   {
+    "name": "OVH SAS",
+    "count": 28,
+    "stake_pct": 15.54
+   },
+   {
+    "name": "TeraSwitch Networks Inc.",
+    "count": 13,
+    "stake_pct": 9.33
+   },
+   {
+    "name": "MEVSPACE sp. z o.o.",
+    "count": 14,
+    "stake_pct": 7.06
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 8,
+    "stake_pct": 4.74
+   },
+   {
+    "name": "Limestone Networks, Inc.",
+    "count": 5,
+    "stake_pct": 4.66
+   },
+   {
+    "name": "Latitude.sh",
+    "count": 6,
+    "stake_pct": 3.02
+   },
+   {
+    "name": "Nessus GmbH",
+    "count": 6,
+    "stake_pct": 3.02
+   }
+  ]
+ },
+ {
+  "date": "2026-08-16",
+  "ts": 1786923064,
+  "epoch": 1087,
+  "total_validators": 208,
+  "continents": [
+   {
+    "name": "EU",
+    "count": 125,
+    "count_pct": 60.1,
+    "stake_pct": 58.48
+   },
+   {
+    "name": "NA",
+    "count": 51,
+    "count_pct": 24.5,
+    "stake_pct": 25.29
+   },
+   {
+    "name": "APAC",
+    "count": 27,
+    "count_pct": 13.0,
+    "stake_pct": 13.98
+   },
+   {
+    "name": "Other",
+    "count": 5,
+    "count_pct": 2.4,
+    "stake_pct": 2.24
+   }
+  ],
+  "countries": [
+   {
+    "cc": "US",
+    "name": "United States",
+    "count": 44,
+    "stake_pct": 22.16
+   },
+   {
+    "cc": "DE",
+    "name": "Germany",
+    "count": 33,
+    "stake_pct": 15.4
+   },
+   {
+    "cc": "FI",
+    "name": "Finland",
+    "count": 28,
+    "stake_pct": 12.53
+   },
+   {
+    "cc": "PL",
+    "name": "Poland",
+    "count": 21,
+    "stake_pct": 9.4
+   },
+   {
+    "cc": "SG",
+    "name": "Singapore",
+    "count": 11,
+    "stake_pct": 6.19
+   },
+   {
+    "cc": "FR",
+    "name": "France",
+    "count": 9,
+    "stake_pct": 4.66
+   },
+   {
+    "cc": "NL",
+    "name": "The Netherlands",
+    "count": 10,
+    "stake_pct": 4.48
+   },
+   {
+    "cc": "SE",
+    "name": "Sweden",
+    "count": 8,
+    "stake_pct": 4.21
+   },
+   {
+    "cc": "CA",
+    "name": "Canada",
+    "count": 7,
+    "stake_pct": 3.13
+   },
+   {
+    "cc": "AT",
+    "name": "Austria",
+    "count": 7,
+    "stake_pct": 3.13
+   }
+  ],
+  "providers": [
+   {
+    "name": "Hetzner Online GmbH",
+    "count": 46,
+    "stake_pct": 20.59
+   },
+   {
+    "name": "OVH SAS",
+    "count": 31,
+    "stake_pct": 15.14
+   },
+   {
+    "name": "MEVSPACE sp. z o.o.",
+    "count": 20,
+    "stake_pct": 8.95
+   },
+   {
+    "name": "TeraSwitch Networks Inc.",
+    "count": 12,
+    "stake_pct": 7.84
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 8,
+    "stake_pct": 4.21
+   },
+   {
+    "name": "Limestone Networks, Inc.",
+    "count": 4,
+    "stake_pct": 3.69
+   },
+   {
+    "name": "Interserver, Inc",
+    "count": 7,
+    "stake_pct": 3.13
+   },
+   {
+    "name": "Latitude.sh",
+    "count": 7,
+    "stake_pct": 3.13
+   }
+  ]
+ },
+ {
+  "date": "2026-08-17",
+  "ts": 1787009460,
+  "epoch": 1093,
+  "total_validators": 200,
+  "continents": [
+   {
+    "name": "EU",
+    "count": 119,
+    "count_pct": 59.5,
+    "stake_pct": 57.87
+   },
+   {
+    "name": "NA",
+    "count": 48,
+    "count_pct": 24.0,
+    "stake_pct": 24.84
+   },
+   {
+    "name": "APAC",
+    "count": 26,
+    "count_pct": 13.0,
+    "stake_pct": 14.04
+   },
+   {
+    "name": "Other",
+    "count": 7,
+    "count_pct": 3.5,
+    "stake_pct": 3.25
+   }
+  ],
+  "countries": [
+   {
+    "cc": "US",
+    "name": "United States",
+    "count": 42,
+    "stake_pct": 22.06
+   },
+   {
+    "cc": "DE",
+    "name": "Germany",
+    "count": 30,
+    "stake_pct": 14.58
+   },
+   {
+    "cc": "FI",
+    "name": "Finland",
+    "count": 24,
+    "stake_pct": 11.14
+   },
+   {
+    "cc": "PL",
+    "name": "Poland",
+    "count": 21,
+    "stake_pct": 9.75
+   },
+   {
+    "cc": "SG",
+    "name": "Singapore",
+    "count": 9,
+    "stake_pct": 5.49
+   },
+   {
+    "cc": "SE",
+    "name": "Sweden",
+    "count": 8,
+    "stake_pct": 4.37
+   },
+   {
+    "cc": "FR",
+    "name": "France",
+    "count": 8,
+    "stake_pct": 4.37
+   },
+   {
+    "cc": "NL",
+    "name": "The Netherlands",
+    "count": 9,
+    "stake_pct": 4.18
+   },
+   {
+    "cc": "AT",
+    "name": "Austria",
+    "count": 7,
+    "stake_pct": 3.25
+   },
+   {
+    "cc": "JP",
+    "name": "Japan",
+    "count": 5,
+    "stake_pct": 2.98
+   }
+  ],
+  "providers": [
+   {
+    "name": "Hetzner Online GmbH",
+    "count": 39,
+    "stake_pct": 18.1
+   },
+   {
+    "name": "OVH SAS",
+    "count": 29,
+    "stake_pct": 14.78
+   },
+   {
+    "name": "TeraSwitch Networks Inc.",
+    "count": 14,
+    "stake_pct": 9.06
+   },
+   {
+    "name": "MEVSPACE sp. z o.o.",
+    "count": 19,
+    "stake_pct": 8.82
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 8,
+    "stake_pct": 4.37
+   },
+   {
+    "name": "Limestone Networks, Inc.",
+    "count": 5,
+    "stake_pct": 4.29
+   },
+   {
+    "name": "Latitude.sh",
+    "count": 7,
+    "stake_pct": 3.25
+   },
+   {
+    "name": "Interserver, Inc",
+    "count": 7,
+    "stake_pct": 3.25
+   }
+  ]
+ },
+ {
+  "date": "2026-08-18",
+  "ts": 1787095861,
+  "epoch": 1099,
+  "total_validators": 200,
+  "continents": [
+   {
+    "name": "EU",
+    "count": 125,
+    "count_pct": 62.5,
+    "stake_pct": 60.65
+   },
+   {
+    "name": "NA",
+    "count": 47,
+    "count_pct": 23.5,
+    "stake_pct": 24.38
+   },
+   {
+    "name": "APAC",
+    "count": 22,
+    "count_pct": 11.0,
+    "stake_pct": 12.18
+   },
+   {
+    "name": "Other",
+    "count": 6,
+    "count_pct": 3.0,
+    "stake_pct": 2.79
+   }
+  ],
+  "countries": [
+   {
+    "cc": "US",
+    "name": "United States",
+    "count": 40,
+    "stake_pct": 21.13
+   },
+   {
+    "cc": "DE",
+    "name": "Germany",
+    "count": 31,
+    "stake_pct": 15.05
+   },
+   {
+    "cc": "FI",
+    "name": "Finland",
+    "count": 27,
+    "stake_pct": 12.53
+   },
+   {
+    "cc": "PL",
+    "name": "Poland",
+    "count": 21,
+    "stake_pct": 9.75
+   },
+   {
+    "cc": "NL",
+    "name": "The Netherlands",
+    "count": 10,
+    "stake_pct": 4.64
+   },
+   {
+    "cc": "SG",
+    "name": "Singapore",
+    "count": 7,
+    "stake_pct": 4.56
+   },
+   {
+    "cc": "SE",
+    "name": "Sweden",
+    "count": 8,
+    "stake_pct": 4.37
+   },
+   {
+    "cc": "FR",
+    "name": "France",
+    "count": 8,
+    "stake_pct": 4.37
+   },
+   {
+    "cc": "CA",
+    "name": "Canada",
+    "count": 7,
+    "stake_pct": 3.25
+   },
+   {
+    "cc": "AT",
+    "name": "Austria",
+    "count": 7,
+    "stake_pct": 3.25
+   }
+  ],
+  "providers": [
+   {
+    "name": "Hetzner Online GmbH",
+    "count": 42,
+    "stake_pct": 19.5
+   },
+   {
+    "name": "OVH SAS",
+    "count": 30,
+    "stake_pct": 15.24
+   },
+   {
+    "name": "MEVSPACE sp. z o.o.",
+    "count": 19,
+    "stake_pct": 8.82
+   },
+   {
+    "name": "TeraSwitch Networks Inc.",
+    "count": 10,
+    "stake_pct": 7.2
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 8,
+    "stake_pct": 4.37
+   },
+   {
+    "name": "Limestone Networks, Inc.",
+    "count": 4,
+    "stake_pct": 3.83
+   },
+   {
+    "name": "Latitude.sh",
+    "count": 8,
+    "stake_pct": 3.71
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 4,
+    "stake_pct": 2.51
+   }
+  ]
+ },
+ {
+  "date": "2026-08-19",
+  "ts": 1787182258,
+  "epoch": 1105,
+  "total_validators": 200,
+  "continents": [
+   {
+    "name": "EU",
+    "count": 123,
+    "count_pct": 61.5,
+    "stake_pct": 59.72
+   },
+   {
+    "name": "NA",
+    "count": 46,
+    "count_pct": 23.0,
+    "stake_pct": 23.91
+   },
+   {
+    "name": "APAC",
+    "count": 25,
+    "count_pct": 12.5,
+    "stake_pct": 13.58
+   },
+   {
+    "name": "Other",
+    "count": 6,
+    "count_pct": 3.0,
+    "stake_pct": 2.79
+   }
+  ],
+  "countries": [
+   {
+    "cc": "US",
+    "name": "United States",
+    "count": 40,
+    "stake_pct": 21.13
+   },
+   {
+    "cc": "DE",
+    "name": "Germany",
+    "count": 34,
+    "stake_pct": 16.44
+   },
+   {
+    "cc": "FI",
+    "name": "Finland",
+    "count": 27,
+    "stake_pct": 12.53
+   },
+   {
+    "cc": "PL",
+    "name": "Poland",
+    "count": 19,
+    "stake_pct": 8.82
+   },
+   {
+    "cc": "SG",
+    "name": "Singapore",
+    "count": 9,
+    "stake_pct": 5.49
+   },
+   {
+    "cc": "NL",
+    "name": "The Netherlands",
+    "count": 10,
+    "stake_pct": 4.64
+   },
+   {
+    "cc": "FR",
+    "name": "France",
+    "count": 8,
+    "stake_pct": 4.37
+   },
+   {
+    "cc": "SE",
+    "name": "Sweden",
+    "count": 7,
+    "stake_pct": 3.91
+   },
+   {
+    "cc": "AU",
+    "name": "Australia",
+    "count": 8,
+    "stake_pct": 3.71
+   },
+   {
+    "cc": "CA",
+    "name": "Canada",
+    "count": 6,
+    "stake_pct": 2.79
+   }
+  ],
+  "providers": [
+   {
+    "name": "Hetzner Online GmbH",
+    "count": 46,
+    "stake_pct": 21.35
+   },
+   {
+    "name": "OVH SAS",
+    "count": 32,
+    "stake_pct": 16.17
+   },
+   {
+    "name": "TeraSwitch Networks Inc.",
+    "count": 12,
+    "stake_pct": 8.13
+   },
+   {
+    "name": "MEVSPACE sp. z o.o.",
+    "count": 17,
+    "stake_pct": 7.89
+   },
+   {
+    "name": "Limestone Networks, Inc.",
+    "count": 5,
+    "stake_pct": 4.29
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 7,
+    "stake_pct": 3.91
+   },
+   {
+    "name": "Latitude.sh",
+    "count": 7,
+    "stake_pct": 3.25
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 4,
+    "stake_pct": 2.51
+   }
+  ]
+ },
+ {
+  "date": "2026-08-20",
+  "ts": 1787268662,
+  "epoch": 1110,
+  "total_validators": 200,
+  "continents": [
+   {
+    "name": "EU",
+    "count": 117,
+    "count_pct": 58.5,
+    "stake_pct": 56.94
+   },
+   {
+    "name": "NA",
+    "count": 50,
+    "count_pct": 25.0,
+    "stake_pct": 25.77
+   },
+   {
+    "name": "APAC",
+    "count": 29,
+    "count_pct": 14.5,
+    "stake_pct": 15.43
+   },
+   {
+    "name": "Other",
+    "count": 4,
+    "count_pct": 2.0,
+    "stake_pct": 1.86
+   }
+  ],
+  "countries": [
+   {
+    "cc": "US",
+    "name": "United States",
+    "count": 43,
+    "stake_pct": 22.52
+   },
+   {
+    "cc": "DE",
+    "name": "Germany",
+    "count": 32,
+    "stake_pct": 15.51
+   },
+   {
+    "cc": "FI",
+    "name": "Finland",
+    "count": 24,
+    "stake_pct": 11.14
+   },
+   {
+    "cc": "PL",
+    "name": "Poland",
+    "count": 15,
+    "stake_pct": 6.96
+   },
+   {
+    "cc": "SG",
+    "name": "Singapore",
+    "count": 11,
+    "stake_pct": 6.42
+   },
+   {
+    "cc": "NL",
+    "name": "The Netherlands",
+    "count": 12,
+    "stake_pct": 5.57
+   },
+   {
+    "cc": "SE",
+    "name": "Sweden",
+    "count": 9,
+    "stake_pct": 4.83
+   },
+   {
+    "cc": "FR",
+    "name": "France",
+    "count": 9,
+    "stake_pct": 4.83
+   },
+   {
+    "cc": "AU",
+    "name": "Australia",
+    "count": 8,
+    "stake_pct": 3.71
+   },
+   {
+    "cc": "CA",
+    "name": "Canada",
+    "count": 7,
+    "stake_pct": 3.25
+   }
+  ],
+  "providers": [
+   {
+    "name": "Hetzner Online GmbH",
+    "count": 39,
+    "stake_pct": 18.1
+   },
+   {
+    "name": "OVH SAS",
+    "count": 34,
+    "stake_pct": 17.1
+   },
+   {
+    "name": "TeraSwitch Networks Inc.",
+    "count": 14,
+    "stake_pct": 9.06
+   },
+   {
+    "name": "MEVSPACE sp. z o.o.",
+    "count": 13,
+    "stake_pct": 6.04
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 9,
+    "stake_pct": 4.83
+   },
+   {
+    "name": "Limestone Networks, Inc.",
+    "count": 5,
+    "stake_pct": 4.29
+   },
+   {
+    "name": "Latitude.sh",
+    "count": 7,
+    "stake_pct": 3.25
+   },
+   {
+    "name": "Interserver, Inc",
+    "count": 7,
+    "stake_pct": 3.25
+   }
+  ]
+ },
+ {
+  "date": "2026-08-21",
+  "ts": 1787355059,
+  "epoch": 1116,
+  "total_validators": 200,
+  "continents": [
+   {
+    "name": "EU",
+    "count": 121,
+    "count_pct": 60.5,
+    "stake_pct": 58.8
+   },
+   {
+    "name": "NA",
+    "count": 48,
+    "count_pct": 24.0,
+    "stake_pct": 24.84
+   },
+   {
+    "name": "APAC",
+    "count": 26,
+    "count_pct": 13.0,
+    "stake_pct": 14.04
+   },
+   {
+    "name": "Other",
+    "count": 5,
+    "count_pct": 2.5,
+    "stake_pct": 2.32
+   }
+  ],
+  "countries": [
+   {
+    "cc": "US",
+    "name": "United States",
+    "count": 41,
+    "stake_pct": 21.59
+   },
+   {
+    "cc": "DE",
+    "name": "Germany",
+    "count": 32,
+    "stake_pct": 15.51
+   },
+   {
+    "cc": "FI",
+    "name": "Finland",
+    "count": 28,
+    "stake_pct": 13.0
+   },
+   {
+    "cc": "PL",
+    "name": "Poland",
+    "count": 19,
+    "stake_pct": 8.82
+   },
+   {
+    "cc": "SG",
+    "name": "Singapore",
+    "count": 11,
+    "stake_pct": 6.42
+   },
+   {
+    "cc": "FR",
+    "name": "France",
+    "count": 9,
+    "stake_pct": 4.83
+   },
+   {
+    "cc": "NL",
+    "name": "The Netherlands",
+    "count": 10,
+    "stake_pct": 4.64
+   },
+   {
+    "cc": "SE",
+    "name": "Sweden",
+    "count": 7,
+    "stake_pct": 3.91
+   },
+   {
+    "cc": "CA",
+    "name": "Canada",
+    "count": 7,
+    "stake_pct": 3.25
+   },
+   {
+    "cc": "AT",
+    "name": "Austria",
+    "count": 7,
+    "stake_pct": 3.25
+   }
+  ],
+  "providers": [
+   {
+    "name": "Hetzner Online GmbH",
+    "count": 45,
+    "stake_pct": 20.89
+   },
+   {
+    "name": "OVH SAS",
+    "count": 31,
+    "stake_pct": 15.7
+   },
+   {
+    "name": "MEVSPACE sp. z o.o.",
+    "count": 18,
+    "stake_pct": 8.36
+   },
+   {
+    "name": "TeraSwitch Networks Inc.",
+    "count": 12,
+    "stake_pct": 8.13
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 7,
+    "stake_pct": 3.91
+   },
+   {
+    "name": "Limestone Networks, Inc.",
+    "count": 4,
+    "stake_pct": 3.83
+   },
+   {
+    "name": "Latitude.sh",
+    "count": 7,
+    "stake_pct": 3.25
+   },
+   {
+    "name": "Interserver, Inc",
+    "count": 6,
+    "stake_pct": 2.79
+   }
+  ]
+ },
+ {
+  "date": "2026-08-22",
+  "ts": 1787441459,
+  "epoch": 1122,
+  "total_validators": 200,
+  "continents": [
+   {
+    "name": "EU",
+    "count": 120,
+    "count_pct": 60.0,
+    "stake_pct": 58.33
+   },
+   {
+    "name": "NA",
+    "count": 47,
+    "count_pct": 23.5,
+    "stake_pct": 24.38
+   },
+   {
+    "name": "APAC",
+    "count": 26,
+    "count_pct": 13.0,
+    "stake_pct": 14.04
+   },
+   {
+    "name": "Other",
+    "count": 7,
+    "count_pct": 3.5,
+    "stake_pct": 3.25
+   }
+  ],
+  "countries": [
+   {
+    "cc": "US",
+    "name": "United States",
+    "count": 41,
+    "stake_pct": 21.59
+   },
+   {
+    "cc": "DE",
+    "name": "Germany",
+    "count": 32,
+    "stake_pct": 15.51
+   },
+   {
+    "cc": "FI",
+    "name": "Finland",
+    "count": 25,
+    "stake_pct": 11.61
+   },
+   {
+    "cc": "PL",
+    "name": "Poland",
+    "count": 21,
+    "stake_pct": 9.75
+   },
+   {
+    "cc": "SG",
+    "name": "Singapore",
+    "count": 9,
+    "stake_pct": 5.49
+   },
+   {
+    "cc": "SE",
+    "name": "Sweden",
+    "count": 8,
+    "stake_pct": 4.37
+   },
+   {
+    "cc": "FR",
+    "name": "France",
+    "count": 8,
+    "stake_pct": 4.37
+   },
+   {
+    "cc": "AT",
+    "name": "Austria",
+    "count": 8,
+    "stake_pct": 3.71
+   },
+   {
+    "cc": "NL",
+    "name": "The Netherlands",
+    "count": 8,
+    "stake_pct": 3.71
+   },
+   {
+    "cc": "JP",
+    "name": "Japan",
+    "count": 5,
+    "stake_pct": 2.98
+   }
+  ],
+  "providers": [
+   {
+    "name": "Hetzner Online GmbH",
+    "count": 41,
+    "stake_pct": 19.03
+   },
+   {
+    "name": "OVH SAS",
+    "count": 30,
+    "stake_pct": 15.24
+   },
+   {
+    "name": "MEVSPACE sp. z o.o.",
+    "count": 19,
+    "stake_pct": 8.82
+   },
+   {
+    "name": "TeraSwitch Networks Inc.",
+    "count": 13,
+    "stake_pct": 8.59
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 8,
+    "stake_pct": 4.37
+   },
+   {
+    "name": "Limestone Networks, Inc.",
+    "count": 5,
+    "stake_pct": 4.29
+   },
+   {
+    "name": "Latitude.sh",
+    "count": 7,
+    "stake_pct": 3.25
+   },
+   {
+    "name": "Interserver, Inc",
+    "count": 7,
+    "stake_pct": 3.25
+   }
+  ]
+ },
+ {
+  "date": "2026-08-23",
+  "ts": 1787527861,
+  "epoch": 1127,
+  "total_validators": 201,
+  "continents": [
+   {
+    "name": "EU",
+    "count": 126,
+    "count_pct": 62.7,
+    "stake_pct": 60.83
+   },
+   {
+    "name": "NA",
+    "count": 48,
+    "count_pct": 23.9,
+    "stake_pct": 24.73
+   },
+   {
+    "name": "APAC",
+    "count": 21,
+    "count_pct": 10.4,
+    "stake_pct": 11.67
+   },
+   {
+    "name": "Other",
+    "count": 6,
+    "count_pct": 3.0,
+    "stake_pct": 2.77
+   }
+  ],
+  "countries": [
+   {
+    "cc": "US",
+    "name": "United States",
+    "count": 41,
+    "stake_pct": 21.49
+   },
+   {
+    "cc": "DE",
+    "name": "Germany",
+    "count": 31,
+    "stake_pct": 14.98
+   },
+   {
+    "cc": "FI",
+    "name": "Finland",
+    "count": 28,
+    "stake_pct": 12.94
+   },
+   {
+    "cc": "PL",
+    "name": "Poland",
+    "count": 21,
+    "stake_pct": 9.7
+   },
+   {
+    "cc": "NL",
+    "name": "The Netherlands",
+    "count": 10,
+    "stake_pct": 4.62
+   },
+   {
+    "cc": "SG",
+    "name": "Singapore",
+    "count": 7,
+    "stake_pct": 4.54
+   },
+   {
+    "cc": "SE",
+    "name": "Sweden",
+    "count": 8,
+    "stake_pct": 4.35
+   },
+   {
+    "cc": "FR",
+    "name": "France",
+    "count": 8,
+    "stake_pct": 4.35
+   },
+   {
+    "cc": "CA",
+    "name": "Canada",
+    "count": 7,
+    "stake_pct": 3.23
+   },
+   {
+    "cc": "AT",
+    "name": "Austria",
+    "count": 7,
+    "stake_pct": 3.23
+   }
+  ],
+  "providers": [
+   {
+    "name": "Hetzner Online GmbH",
+    "count": 43,
+    "stake_pct": 19.87
+   },
+   {
+    "name": "OVH SAS",
+    "count": 29,
+    "stake_pct": 14.71
+   },
+   {
+    "name": "MEVSPACE sp. z o.o.",
+    "count": 19,
+    "stake_pct": 8.78
+   },
+   {
+    "name": "TeraSwitch Networks Inc.",
+    "count": 10,
+    "stake_pct": 7.17
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 8,
+    "stake_pct": 4.35
+   },
+   {
+    "name": "Latitude.sh",
+    "count": 9,
+    "stake_pct": 4.16
+   },
+   {
+    "name": "Limestone Networks, Inc.",
+    "count": 4,
+    "stake_pct": 3.81
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 4,
+    "stake_pct": 2.5
+   }
+  ]
+ },
+ {
+  "date": "2026-08-24",
+  "ts": 1787560259,
+  "epoch": 1130,
+  "total_validators": 187,
+  "continents": [
+   {
+    "name": "EU",
+    "count": 110,
+    "count_pct": 58.8,
+    "stake_pct": 57.14
+   },
+   {
+    "name": "NA",
+    "count": 48,
+    "count_pct": 25.7,
+    "stake_pct": 26.44
+   },
+   {
+    "name": "APAC",
+    "count": 22,
+    "count_pct": 11.8,
+    "stake_pct": 12.97
+   },
+   {
+    "name": "Other",
+    "count": 7,
+    "count_pct": 3.7,
+    "stake_pct": 3.46
+   }
+  ],
+  "countries": [
+   {
+    "cc": "US",
+    "name": "United States",
+    "count": 42,
+    "stake_pct": 23.47
+   },
+   {
+    "cc": "DE",
+    "name": "Germany",
+    "count": 28,
+    "stake_pct": 14.53
+   },
+   {
+    "cc": "FI",
+    "name": "Finland",
+    "count": 27,
+    "stake_pct": 13.34
+   },
+   {
+    "cc": "PL",
+    "name": "Poland",
+    "count": 20,
+    "stake_pct": 9.88
+   },
+   {
+    "cc": "SG",
+    "name": "Singapore",
+    "count": 7,
+    "stake_pct": 4.86
+   },
+   {
+    "cc": "NL",
+    "name": "The Netherlands",
+    "count": 8,
+    "stake_pct": 3.95
+   },
+   {
+    "cc": "AU",
+    "name": "Australia",
+    "count": 8,
+    "stake_pct": 3.95
+   },
+   {
+    "cc": "SE",
+    "name": "Sweden",
+    "count": 6,
+    "stake_pct": 3.66
+   },
+   {
+    "cc": "FR",
+    "name": "France",
+    "count": 5,
+    "stake_pct": 3.17
+   },
+   {
+    "cc": "CA",
+    "name": "Canada",
+    "count": 6,
+    "stake_pct": 2.96
+   }
+  ],
+  "providers": [
+   {
+    "name": "Hetzner Online GmbH",
+    "count": 40,
+    "stake_pct": 19.76
+   },
+   {
+    "name": "OVH SAS",
+    "count": 29,
+    "stake_pct": 15.72
+   },
+   {
+    "name": "MEVSPACE sp. z o.o.",
+    "count": 18,
+    "stake_pct": 8.89
+   },
+   {
+    "name": "TeraSwitch Networks Inc.",
+    "count": 9,
+    "stake_pct": 7.17
+   },
+   {
+    "name": "Limestone Networks, Inc.",
+    "count": 4,
+    "stake_pct": 4.08
+   },
+   {
+    "name": "Latitude.sh",
+    "count": 8,
+    "stake_pct": 3.95
+   },
+   {
+    "name": "UAB Cherry Servers",
+    "count": 6,
+    "stake_pct": 3.66
+   },
+   {
+    "name": "Interserver, Inc",
+    "count": 6,
+    "stake_pct": 2.96
+   }
+  ]
+ }
+]

@@ -5,6 +5,13 @@ no contracts, no SDK. The client pays **native MON**, the server verifies the pa
 plain RPC and serves the resource. Running in production at
 [prooflines.org/monad/x402/network-concentration-report](https://prooflines.org/monad/x402/network-concentration-report).
 
+## Data
+
+The paid resource serves a network concentration report built from files in
+`X402_DATA_DIR` (default `./data`, trimmed real samples included, so a fresh
+clone serves a working report). Point it at your own documents to sell your
+own data.
+
 ## Why this exists
 
 The official Monad x402 stack settles USDC through a facilitator
