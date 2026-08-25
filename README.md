@@ -92,3 +92,18 @@ takes the opposite corner: the least machinery that still pays.
 ## License
 
 MIT
+
+## On-chain feedback (ERC-8004)
+
+This gate's operator runs registered agent **#10231** in the [ERC-8004 Identity
+Registry](https://prooflines.org/monad/erc8004/) on Monad. If you paid for the
+report and want to say so on-chain, `rate-agent.mjs` submits feedback to the
+reputation registry from the wallet that paid:
+
+```bash
+RATE_KEY=<your-keyfile> node rate-agent.mjs 10231 95 x402 report-quality
+```
+
+Rate agents you actually used, from the wallet that used them. The spec forbids
+self-feedback from the agent owner, and wash ratings are exactly the noise that
+makes the registry's raw totals meaningless.
