@@ -149,19 +149,24 @@ def main():
             ex = offer["extensions"]["bazaar"]["info"]["output"]["example"]
             assert "networks" in ex and "mainnet" in ex["networks"], name
 
-        # 3. HEAD answers like GET, minus the body (RFC 9110 6.4.2).
+        # 3. A browser gets the catalogue as a page, an agent as JSON: same URL.
+        status, headers, body = req(BASE, headers={"Accept": "text/html"})
+        assert status == 200 and headers["Content-Type"].startswith("text/html"), status
+        assert b"<table>" in body and b"network-concentration-report" in body
+
+        # 4. HEAD answers like GET, minus the body (RFC 9110 6.4.2).
         status, headers, body = req(URL, method="HEAD")
         assert status == 402 and body == b"" and headers.get("PAYMENT-REQUIRED")
 
-        # 4. Unknown resource is a 404 that names what exists.
+        # 5. Unknown resource is a 404 that names what exists.
         status, _, body = req(f"{BASE}/nope")
         assert status == 404 and b"available" in body
 
-        # 5. A malformed payment header fails loudly, not silently.
+        # 6. A malformed payment header fails loudly, not silently.
         status, _, body = req(URL, headers={"X-PAYMENT": "not base64!!"})
         assert status == 400, status
 
-        # 6. Every resource builds a real answer from the sample data, and the
+        # 7. Every resource builds a real answer from the sample data, and the
         #    single-question ones are genuinely smaller than the bundle.
         sizes = {}
         for name, res in gate.RESOURCES.items():
@@ -173,7 +178,7 @@ def main():
         rep = gate.RESOURCES["network-concentration-report"]["build"]()
         assert rep["networks"]["mainnet"]["hhi"]["provider_asn"] > 0
 
-        # 7. The split answers agree with the bundle — one pipeline, not five.
+        # 8. The split answers agree with the bundle — one pipeline, not five.
         hhi = gate.build_hhi()["networks"]["mainnet"]
         bft = gate.build_bft_thresholds()["networks"]["mainnet"]
         m = rep["networks"]["mainnet"]
@@ -184,14 +189,14 @@ def main():
         assert top[0]["cum_pct"] == top[0]["stake_pct"]
         assert all(top[i]["cum_pct"] >= top[i - 1]["cum_pct"] for i in range(1, len(top)))
 
-        # 8. A payment is only consumed once, and the INSERT is what decides it.
+        # 9. A payment is only consumed once, and the INSERT is what decides it.
         assert gate.burn_payment("0x" + "ab" * 32, "network-concentration-report") is True
         assert gate.burn_payment("0x" + "ab" * 32, "network-concentration-report") is False
 
         paid_path(gate)
 
         print(f"SMOKE_OK: catalogue + {len(gate.RESOURCES)} resources (402 body+header, own price), "
-              "HEAD parity, 404, bad-payment 400, split agrees with bundle, replay burn once, "
+              "human page, HEAD parity, 404, bad-payment 400, split agrees with bundle, replay burn once, "
               "paid path + per-resource price + outage-does-not-charge (stubbed chain)")
     finally:
         proc.terminate()

@@ -448,6 +448,41 @@ def catalogue():
     }
 
 
+def catalogue_html():
+    """The catalogue for a person. A browser that lands on the gate gets a page,
+    an agent gets the JSON: same URL, decided by Accept. Machine endpoints that
+    answer humans with a raw error read as broken."""
+    mon = lambda wei: f"{int(wei) / 10**18:g}"
+    rows = "".join(
+        f"<tr><td><a href='{r['url']}'>{r['name']}</a></td>"
+        f"<td class='p'>{mon(r['price_wei'])} MON</td>"
+        f"<td>{r['description']}</td></tr>" for r in RESOURCES.values())
+    first = next(iter(RESOURCES.values()))
+    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ProofLines Monad data · x402 gate ({NETWORK})</title>
+<style>body{{font:15px/1.55 system-ui,sans-serif;max-width:920px;margin:3rem auto;
+padding:0 1rem;color:#1b1f24}}code,pre{{background:#f2f2f4;border-radius:4px;padding:1px 5px}}
+pre{{padding:10px;overflow-x:auto}}td{{padding:7px 10px;border-top:1px solid #e3e3e8;
+vertical-align:top;font-size:14px}}td.p{{white-space:nowrap;font-variant-numeric:tabular-nums}}
+a{{color:#6a4fd8}}</style></head><body>
+<h1>Monad network intelligence, pay per call</h1>
+<p>An <a href="https://x402.org">x402</a> gate on <b>{NETWORK}</b>. Each resource answers one
+question and is priced on its own; the report is the bundle of all of them. Payment is native MON
+to <code>{PAY_TO}</code>, verified by this server against the chain, no facilitator.</p>
+<table>{rows}</table>
+<p>Unpaid, any resource returns <code>402</code> with the offer in the body and in the
+<code>PAYMENT-REQUIRED</code> header. Pay, then retry with the transaction hash:</p>
+<pre>curl -s {first['url']}
+curl -s {first['url']} -H "X-PAYMENT: $(echo -n '{{"txHash":"0x..."}}' | base64 -w0)"</pre>
+<p>This same list is JSON at this URL for anything that is not a browser. The measurements behind
+the answers are published free at <a href="{FEED_URL}">{FEED_URL}</a>: what is paid for is the
+computed answer, not access to the data. Also served over
+<a href="https://prooflines.org/mcp">MCP</a> and <a href="https://prooflines.org/a2a">A2A</a>.
+Source: <a href="https://github.com/ColinkaMir/monad-x402-gate">monad-x402-gate</a>.</p>
+</body></html>"""
+
+
 def db():
     d = os.path.dirname(DB)
     if d:
@@ -535,6 +570,15 @@ class Handler(BaseHTTPRequestHandler):
             # should be able to see what is for sale, and at what price, without
             # paying to find out. Anything else is a 404 that names what exists.
             if not name or path == PUBLIC_PATH:
+                if "text/html" in (self.headers.get("Accept") or ""):
+                    body = catalogue_html().encode()
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/html; charset=utf-8")
+                    self.send_header("Content-Length", str(len(body)))
+                    self.end_headers()
+                    if not self.head_only:
+                        self.wfile.write(body)
+                    return
                 self._json(200, catalogue())
             else:
                 self._json(404, {"error": "unknown resource",
