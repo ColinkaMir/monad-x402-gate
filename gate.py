@@ -43,6 +43,8 @@ GEO_DIR = os.getenv("X402_DATA_DIR", "./data")
 # x402 v2. Bumped from 1 on 2026-08-20: the CDP bazaar validator rejects v1 outright
 # ("upgrade to x402 v2 to be discoverable"), and every discovery index speaks v2.
 X402_VERSION = 2
+HOW_TO_PAY = ("Send the exact amount to payTo on {net}, then retry with header "
+              "X-PAYMENT: base64({{\"txHash\":\"0x..\"}}). One payment = one delivery.")
 FEED_URL = "https://prooflines.org/monad/geo-latency/"
 
 RESOURCE = "network-concentration-report"  # the bundle, and the historical path
@@ -416,6 +418,9 @@ def payment_requirements(res):
                            f"Pay the exact amount in native MON on {NETWORK}, then retry with "
                            "header X-PAYMENT: base64({\"txHash\": \"0x..\"}).",
             "validityWindowSeconds": FRESH_SECONDS,
+            # Non-standard instructions belong in `extra`; /.well-known/x402 nests the same
+            # text there, so the live 402 and the discovery file now agree field for field.
+            "extra": {"howToPay": HOW_TO_PAY.format(net=NETWORK)},
         }] + ([{
             "scheme": "exact",
             "network": CAIP2,
