@@ -43,6 +43,16 @@ GEO_DIR = os.getenv("X402_DATA_DIR", "./data")
 # x402 v2. Bumped from 1 on 2026-08-20: the CDP bazaar validator rejects v1 outright
 # ("upgrade to x402 v2 to be discoverable"), and every discovery index speaks v2.
 X402_VERSION = 2
+# MDF (Markdown First, github.com/bitcryptic-gw/mdf): /mdf.json declares our rails, and an MDF
+# 402 carries `extensions.mdf` plus `X-MDF-Version` (protocol family, stays "1").
+MDF_VERSION = "0.3.1"
+MDF_PROTOCOL = "1"
+MDF_INFO_SCHEMA = {
+    "type": "object",
+    "required": ["version", "price_summary"],
+    "properties": {"version": {"type": "string"}, "price_summary": {"type": "string"},
+                   "expires_at": {"type": "string", "format": "date-time"}},
+}
 HOW_TO_PAY = ("Send the exact amount to payTo on {net}, then retry with header "
               "X-PAYMENT: base64({{\"txHash\":\"0x..\"}}). One payment = one delivery.")
 FEED_URL = "https://prooflines.org/monad/geo-latency/"
@@ -394,7 +404,29 @@ def bazaar_extension(res):
     }}
 
 
+def mdf_extension(accepts):
+    """MDF's 402 entry, derived from accepts[] so the two can never disagree."""
+    parts = []
+    for a in accepts:
+        if a["scheme"] == "monad-native-exact":
+            parts.append(f"{int(a['amount']) / 10**18:g} MON native on {a['network']}")
+        else:
+            parts.append(f"{int(a['amount']) / 10**6:g} USDC on {a['network']} ({a['scheme']})")
+    # The offer is payable on every rail until the shortest window closes.
+    window = min(int(a.get("maxTimeoutSeconds", FRESH_SECONDS)) for a in accepts)
+    expires = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() + window))
+    return {"info": {"version": MDF_VERSION, "price_summary": "; or ".join(parts),
+                     "expires_at": expires},
+            "schema": MDF_INFO_SCHEMA}
+
+
 def payment_requirements(res):
+    out = _payment_requirements(res)
+    out["extensions"] = {**out["extensions"], "mdf": mdf_extension(out["accepts"])}
+    return out
+
+
+def _payment_requirements(res):
     price = str(res["price_wei"])
     return {
         "x402Version": X402_VERSION,
@@ -548,7 +580,13 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Access-Control-Allow-Origin", "*")
-        for k, v in (extra or {}).items():
+        self.send_header("X-MDF-Version", MDF_PROTOCOL)
+        extra = dict(extra or {})
+        # Every 402, rejections included, carries the same object in PAYMENT-REQUIRED.
+        if code == 402 and isinstance(obj, dict) and "accepts" in obj and "PAYMENT-REQUIRED" not in extra:
+            enc = base64.b64encode(json.dumps(obj).encode()).decode()
+            extra.update({"PAYMENT-REQUIRED": enc, "X-PAYMENT-REQUIRED": enc})
+        for k, v in extra.items():
             self.send_header(k, v)
         self.end_headers()
         if not self.head_only:
@@ -579,6 +617,7 @@ class Handler(BaseHTTPRequestHandler):
                     body = catalogue_html().encode()
                     self.send_response(200)
                     self.send_header("Content-Type", "text/html; charset=utf-8")
+                    self.send_header("X-MDF-Version", MDF_PROTOCOL)
                     self.send_header("Content-Length", str(len(body)))
                     self.end_headers()
                     if not self.head_only:
