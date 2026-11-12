@@ -18,7 +18,7 @@ measurements are published free at https://prooflines.org/monad/geo-latency/ and
 every description says so.
 """
 
-import base64, json, os, sqlite3, time, urllib.request
+import base64, json, os, sqlite3, time, urllib.error, urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 PORT = int(os.getenv("X402_PORT", "8412"))
@@ -574,6 +574,13 @@ class Handler(BaseHTTPRequestHandler):
     server_version = "prooflines-x402/2.0"
     head_only = False
 
+    def _unverifiable(self, res, e):
+        """The facilitator failing is not a verdict on the payment: say "try again", with
+        nothing settled, instead of a 502 a client cannot act on."""
+        self._json(503, {"error": f"payment verification temporarily unavailable ({e}); "
+                                  "nothing was settled, retry the same request",
+                         "resource": res["url"]}, {"Retry-After": "5"})
+
     def _json(self, code, obj, extra=None):
         body = json.dumps(obj, ensure_ascii=False).encode()
         self.send_response(code)
@@ -581,6 +588,10 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("X-MDF-Version", MDF_PROTOCOL)
+        # Allow-Origin alone lets a browser fetch the 402 but not read the offer in it.
+        self.send_header("Access-Control-Expose-Headers",
+                         "PAYMENT-REQUIRED, PAYMENT-RESPONSE, X-PAYMENT-REQUIRED, "
+                         "X-PAYMENT-RESPONSE, X-MDF-Version")
         extra = dict(extra or {})
         # Every 402, rejections included, carries the same object in PAYMENT-REQUIRED.
         if code == 402 and isinstance(obj, dict) and "accepts" in obj and "PAYMENT-REQUIRED" not in extra:
@@ -646,8 +657,18 @@ class Handler(BaseHTTPRequestHandler):
                               if a.get("scheme") == "exact")
             try:
                 v = facilitator("/verify", envelope, reqs_entry)
+            except urllib.error.HTTPError as e:
+                if 400 <= e.code < 500:
+                    # The facilitator refused this payment: a verdict, so a fresh 402 with
+                    # the reason, exactly like isValid=false below.
+                    out = payment_requirements(res)
+                    out["error"] = f"payment rejected by facilitator (HTTP {e.code})"
+                    self._json(402, out)
+                else:
+                    self._unverifiable(res, e)
+                return
             except Exception as e:
-                self._json(502, {"error": f"facilitator verify error: {e}"})
+                self._unverifiable(res, e)
                 return
             if not v.get("isValid"):
                 out = payment_requirements(res)
